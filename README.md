@@ -55,6 +55,21 @@ python3 -m http.server 8000
 > 这是浏览器对本地文件的限制，不是页面错误 —— 用上面的本地服务器打开，
 > 或者部署到 GitHub Pages 之后，控制台是干净的。
 
+### 在电脑上预览手机版
+
+手机竖屏布局的断点是 **720px**：浏览器窗口宽度 ≤ 720px 时自动切换成「一屏一题」，
+更宽时显示桌面版。所以在编辑器里把预览窗口拖宽，看到的是桌面版，这是正常的。
+
+不想开手机的话，直接用仓库里的 `preview.html`：它把正式页面放进一个 390×844 的手机框里，
+并带三个机型按钮（iPhone SE / iPhone 14 / 大屏），窗口太矮时会自动缩放。
+
+```bash
+python3 -m http.server 8000
+# 打开 http://localhost:8000/preview.html
+```
+
+也可以直接在浏览器里按 `Cmd + Shift + M`（Chrome / Edge）打开设备模拟，选一个 iPhone 机型。
+
 ## 部署到 GitHub Pages
 
 1. 把仓库推到 GitHub。

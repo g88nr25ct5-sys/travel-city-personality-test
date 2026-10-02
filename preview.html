@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机竖屏预览 · 旅游城市人格测试</title>
+    <style>
+        /* 这是一个开发用的预览页，不影响正式页面。
+           正式页面仍然是 index.html。 */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #2a221b;
+            color: #f4efe6;
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px 28px;
+            gap: 16px;
+        }
+
+        header {
+            text-align: center;
+            flex: none;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 12px;
+            color: #b3a89c;
+        }
+
+        header a {
+            color: #e0b795;
+        }
+
+        .sizes {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sizes button {
+            padding: 7px 14px;
+            border: 1px solid rgba(244, 239, 230, 0.3);
+            border-radius: 999px;
+            background: transparent;
+            color: #f4efe6;
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .sizes button:hover {
+            border-color: #e0b795;
+            color: #e0b795;
+        }
+
+        .sizes button.is-active {
+            background: #e0b795;
+            border-color: #e0b795;
+            color: #2a221b;
+        }
+
+        .stage {
+            flex: 1 1 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 0;
+        }
+
+        .phone {
+            position: relative;
+            transform-origin: center center;
+            border: 12px solid #12100e;
+            border-radius: 46px;
+            background: #12100e;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+            flex: none;
+        }
+
+        .phone::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 108px;
+            height: 26px;
+            background: #12100e;
+            border-radius: 0 0 16px 16px;
+            z-index: 2;
+        }
+
+        .phone iframe {
+            display: block;
+            border: 0;
+            border-radius: 34px;
+            background: #f4efe6;
+        }
+
+        .hint {
+            flex: none;
+            font-size: 12px;
+            color: #8a7b6c;
+            text-align: center;
+            max-width: 34em;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>手机竖屏预览</h1>
+        <p>开发用预览页 · 真正的页面是 <a href="index.html">index.html</a></p>
+
+        <div class="sizes" id="sizes">
+            <button type="button" data-w="375" data-h="667">iPhone SE</button>
+            <button type="button" data-w="390" data-h="844" class="is-active">iPhone 14</button>
+            <button type="button" data-w="430" data-h="932">大屏</button>
+        </div>
+    </header>
+
+    <div class="stage">
+        <div class="phone" id="phone">
+            <iframe id="frame" src="index.html" title="手机竖屏预览" width="390" height="844"></iframe>
+        </div>
+    </div>
+
+    <p class="hint">
+        窗口太矮时会自动缩小显示。手机端是「一屏一题」：
+        顶部进度条、中间题目区可滚动、底部固定大按钮。
+    </p>
+
+    <script>
+        const frame = document.getElementById("frame");
+        const phone = document.getElementById("phone");
+        const sizes = document.getElementById("sizes");
+
+        let current = { w: 390, h: 844 };
+
+        function applyScale() {
+
+            const stage = phone.parentElement;
+            const available = stage.clientHeight;
+            const needed = current.h + 24;
+            const scale = Math.min(1, available / needed);
+
+            phone.style.transform = "scale(" + scale + ")";
+        }
+
+        function setSize(w, h) {
+
+            current = { w: w, h: h };
+
+            frame.width = w;
+            frame.height = h;
+            frame.style.width = w + "px";
+            frame.style.height = h + "px";
+
+            applyScale();
+        }
+
+        sizes.addEventListener("click", function (event) {
+
+            const button = event.target.closest("button");
+
+            if (!button) {
+                return;
+            }
+
+            sizes.querySelectorAll("button").forEach(function (item) {
+                item.classList.toggle("is-active", item === button);
+            });
+
+            setSize(
+                Number(button.dataset.w),
+                Number(button.dataset.h)
+            );
+        });
+
+        window.addEventListener("resize", applyScale);
+
+        setSize(current.w, current.h);
+    </script>
+</body>
+
+</html>
