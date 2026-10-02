@@ -6,7 +6,7 @@
         （v1 -> v2），用户下次打开就会拿到新版本。
    ========================================================= */
 
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 
 const CACHE_NAME = "travel-city-personality-" + CACHE_VERSION;
 
@@ -87,8 +87,18 @@ self.addEventListener("fetch", function (event) {
         return;
     }
 
-    /* 页面请求：先走网络，保证内容是最新的；断网时用缓存 */
-    if (request.mode === "navigate") {
+    const url = new URL(request.url);
+
+    /* 页面、样式、脚本：先走网络，保证改动立刻生效；断网时才用缓存。
+       之前这里对 CSS 用的是「缓存优先」，这也是「改了样式但浏览器还在用
+       旧样式」的原因之一。 */
+    const isCode =
+        request.mode === "navigate" ||
+        request.destination === "style" ||
+        request.destination === "script" ||
+        /\.(css|js|html)$/.test(url.pathname);
+
+    if (isCode) {
 
         event.respondWith(
 
@@ -98,23 +108,28 @@ self.addEventListener("fetch", function (event) {
                     const copy = response.clone();
 
                     caches.open(CACHE_NAME).then(function (cache) {
-                        cache.put("./index.html", copy);
+                        cache.put(request, copy);
                     });
 
                     return response;
                 })
                 .catch(function () {
-                    return caches.match("./index.html");
+                    /* 忽略 ?v= 这类查询串，保证离线时也能命中缓存 */
+                    return caches
+                        .match(request, { ignoreSearch: true })
+                        .then(function (hit) {
+                            return hit || caches.match("./index.html");
+                        });
                 })
         );
 
         return;
     }
 
-    /* 其它资源（本地静态文件 + Google Fonts 等跨域字体）：缓存优先 */
+    /* 图片、字体等不常变的资源：缓存优先 */
     event.respondWith(
 
-        caches.match(request).then(function (cached) {
+        caches.match(request, { ignoreSearch: true }).then(function (cached) {
 
             if (cached) {
                 return cached;
