@@ -128,6 +128,50 @@
         </svg>
     </div>
 
+    <!--
+      侧边装饰：只在答题页 / 结果页的宽屏出现，手机和窄屏自动隐藏。
+      刻意做成不对称——左上是一张竖版小卡片，右侧中部是纸飞机，
+      左下角一个很小的图钉，避免左右镜像的呆板感。
+    -->
+    <div class="margins" aria-hidden="true">
+
+        <!-- 左上：贴着小胶带的竖版明信片 -->
+        <figure class="edge edge--postcard">
+            <span class="edge__tape"></span>
+            <svg class="edge__art" viewBox="0 0 76 88">
+                <g fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 62 L25 34 L36 50 L50 25 L68 62"></path>
+                    <path d="M6 62 L70 62"></path>
+                </g>
+                <circle cx="62" cy="22" r="6" fill="none"
+                        stroke="currentColor" stroke-width="1.4"></circle>
+                <path d="M12 74 L64 74" fill="none" stroke="currentColor"
+                      stroke-width="1.1" stroke-dasharray="4 5"></path>
+            </svg>
+            <figcaption class="edge__label">POSTCARD</figcaption>
+        </figure>
+
+        <!-- 右侧偏上：纸飞机 + 一段虚线航迹 -->
+        <svg class="edge edge--plane" viewBox="0 0 130 90">
+            <path class="edge__dash"
+                  d="M4 82 C 34 70 44 52 66 46 S 96 40 116 22"></path>
+            <g class="edge__plane" transform="translate(100 4) rotate(12)">
+                <path d="M0 9 L24 -2 L14 20 L10 11 Z"></path>
+                <path d="M10 11 L24 -2"></path>
+            </g>
+        </svg>
+
+        <!-- 左下：很小的图钉 -->
+        <svg class="edge edge--pin" viewBox="0 0 60 74">
+            <path class="edge__dash" d="M5 69 C 19 61 29 63 41 51"></path>
+            <g class="edge__pin">
+                <path d="M34 14 a10 10 0 0 1 10 10 c0 8.5 -10 20 -10 20 s -10 -11.5 -10 -20 a10 10 0 0 1 10 -10 z"></path>
+                <circle cx="34" cy="24" r="3.4"></circle>
+            </g>
+        </svg>
+    </div>
+
     <main class="page">
         <section id="home-screen" class="screen">
             <h1>
