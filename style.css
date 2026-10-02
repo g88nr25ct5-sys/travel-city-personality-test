@@ -44,17 +44,20 @@ body {
     overflow-x: hidden;
 }
 
-/* 极淡的纸张颗粒：让大片留白有一点质感，但第一眼仍然是干净的米白色。
-   用内联 SVG 生成噪点，不额外加载图片。 */
+/* 纸张质感：两层噪点叠出来的纸面。
+   第一层是很细的颗粒（像纸纤维），第二层是大面积的很淡的斑驳（像手工纸的云斑）。
+   两层都用内联 SVG 生成，不额外加载图片；叠在内容底下，不会影响文字和照片的清晰度。 */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 160px 160px;
-    opacity: 0.05;
+    background-image:
+        url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E"),
+        url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27420%27%20height%3D%27420%27%3E%3Cfilter%20id%3D%27m%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.012%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27420%27%20height%3D%27420%27%20filter%3D%27url%28%23m%29%27%20opacity%3D%270.55%27%2F%3E%3C%2Fsvg%3E");
+    background-size: 160px 160px, 420px 420px;
+    opacity: 0.26;
 }
 
 .page {
@@ -1213,5 +1216,18 @@ body:not([data-screen="home"]) .scenery {
         opacity: 0.5;
         transform: rotate(7deg);
         pointer-events: none;
+    }
+}
+
+/* =========================================================
+   8. 桌面端首页：让标题永远落在照片线下方
+   —— 窗口矮的时候（笔记本常见的 700~800px），
+      内容整体上移会和顶部挂着的照片撞在一起。
+      这里按视口高度动态补一段上边距，越高越不需要补。
+   ========================================================= */
+
+@media (min-width: 721px) {
+    body[data-screen="home"] #home-screen {
+        padding-top: max(0px, calc(822px - 92vh));
     }
 }

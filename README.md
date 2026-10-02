@@ -11,15 +11,15 @@
 **在线试玩：<https://g88nr25ct5-sys.github.io/travel-city-personality-test/>**
 
 <p align="center">
-  <img src="assets/screenshots/home-mobile.png" width="220" alt="首页">
-  <img src="assets/screenshots/quiz-mobile.png" width="220" alt="答题页">
+  <img src="assets/screenshots/home-mobile.jpg" width="220" alt="首页">
+  <img src="assets/screenshots/quiz-mobile.jpg" width="220" alt="答题页">
 </p>
 
 <p align="center">
   <em>手机端是一屏一题的竖屏体验：顶部进度条、中间题目可滚动、底部固定的大按钮。</em>
 </p>
 
-![结果页](assets/screenshots/result-mobile.png)
+![结果页](assets/screenshots/result-mobile.jpg)
 
 ## 四种旅行人格
 
@@ -120,7 +120,7 @@ python3 -m http.server 8000
 仓库里的 `.nojekyll` 会让 GitHub Pages 跳过 Jekyll 处理，避免静态文件被误改。
 
 > 小提示：`index.html` 里的 `og:image` 已经写成了完整网址
-> （`https://g88nr25ct5-sys.github.io/travel-city-personality-test/assets/screenshots/og.png`）。
+> （`https://g88nr25ct5-sys.github.io/travel-city-personality-test/assets/screenshots/og.jpg`）。
 > 如果你 fork 到自己账号下部署，记得把 `og:url` 和 `og:image` 里的用户名和仓库名一起改掉，
 > 这样分享到群里或社交平台时才有配图。
 
