@@ -6,7 +6,7 @@
         （v1 -> v2），用户下次打开就会拿到新版本。
    ========================================================= */
 
-const CACHE_VERSION = "v4";
+const CACHE_VERSION = "v5";
 
 const CACHE_NAME = "travel-city-personality-" + CACHE_VERSION;
 
