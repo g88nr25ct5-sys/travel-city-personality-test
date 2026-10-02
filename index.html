@@ -19,9 +19,34 @@
     <meta property="og:image" content="https://g88nr25ct5-sys.github.io/travel-city-personality-test/assets/screenshots/og.png">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <!--
+      字体：
+      - 线上（http/https）用本地自托管字体，加载快、不闪、可离线
+      - 直接双击打开（file://）时浏览器不允许读取本地字体文件，
+        这种情况改用 Google Fonts，保证本地预览的字体也是对的
+    -->
+    <script>
+        (function () {
+            var link = document.createElement("link");
+
+            link.rel = "stylesheet";
+
+            if (location.protocol === "file:") {
+                link.href =
+                    "https://fonts.googleapis.com/css2?" +
+                    "family=Ma+Shan+Zheng&" +
+                    "family=Noto+Sans+SC:wght@400;500&" +
+                    "family=Noto+Serif+SC:wght@400;600&" +
+                    "family=ZCOOL+XiaoWei&" +
+                    "display=swap";
+            } else {
+                link.href = "assets/fonts/fonts.css";
+            }
+
+            document.head.appendChild(link);
+        })();
+    </script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -63,22 +88,6 @@
             </div>
         </div>
 
-        <!-- 简笔画：指南针 -->
-        <svg class="doodle doodle--compass" viewBox="0 0 100 100">
-            <circle cx="50" cy="52" r="34" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
-            <circle cx="50" cy="52" r="26" fill="none" stroke="currentColor" stroke-width="0.8" opacity=".45"></circle>
-            <g stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
-                <line x1="50" y1="18" x2="50" y2="26"></line>
-                <line x1="50" y1="78" x2="50" y2="86"></line>
-                <line x1="16" y1="52" x2="24" y2="52"></line>
-                <line x1="76" y1="52" x2="84" y2="52"></line>
-            </g>
-            <path d="M50 28 L57 52 L50 76 L43 52 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
-            <path d="M50 28 L57 52 L43 52 Z" fill="#b06a4a" opacity=".85"></path>
-            <circle cx="50" cy="52" r="3.2" fill="currentColor"></circle>
-            <text x="50" y="12" text-anchor="middle" font-size="10" fill="currentColor" font-family="Georgia, serif">N</text>
-        </svg>
-
         <!-- 简笔画：地标（塔） -->
         <svg class="doodle doodle--pagoda" viewBox="0 0 120 110">
             <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
@@ -94,16 +103,6 @@
                 <path d="M24 94 L96 94"></path>
             </g>
             <circle cx="60" cy="9" r="2.4" fill="#b06a4a"></circle>
-        </svg>
-
-        <!-- 简笔画：旅行足迹（绕圈的虚线路线） -->
-        <svg class="doodle doodle--route" viewBox="0 0 640 160">
-            <path class="route-path" d="M12 120 C21.7 114.3 52.0 87.3 70 86 C88.0 84.7 104.2 115.7 120 112 C135.8 108.3 149.2 66.7 165 64 C180.8 61.3 200.8 98.0 215 96 C229.2 94.0 238.8 52.7 250 52 C261.2 51.3 281.7 79.7 282 92 C282.3 104.3 262.3 125.0 252 126 C241.7 127.0 218.3 106.0 220 98 C221.7 90.0 245.0 82.7 262 78 C279.0 73.3 303.7 68.7 322 70 C340.3 71.3 354.5 104.7 372 110 C389.5 115.3 413.8 71.3 430 62 C446.2 52.7 472.5 78.3 500 86 C527.5 93.7 549.5 49.3 566 44 C582.5 38.7 610.5 55.0 628 58"></path>
-            <circle class="route-start" cx="12" cy="120" r="4.5"></circle>
-            <g class="route-plane" transform="translate(604 34) rotate(18)">
-                <path d="M0 8 L20 -1 L12 17 L9 10 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
-                <path d="M9 10 L20 -1" stroke="currentColor" stroke-width="1.2" fill="none"></path>
-            </g>
         </svg>
 
         <!-- 简笔画：回形针 -->
@@ -141,6 +140,33 @@
             <p class="intro">发现最适合你的旅行城市。</p>
 
             <button type="button" id="start-btn">开始测试</button>
+
+            <!-- 旅行足迹 + 指南针：跟着按钮走，不用往下滑就能看到 -->
+            <div class="home-footer" aria-hidden="true">
+                <svg class="doodle doodle--route" viewBox="0 0 640 160">
+                    <path class="route-path" d="M12 120 C21.7 114.3 52.0 87.3 70 86 C88.0 84.7 104.2 115.7 120 112 C135.8 108.3 149.2 66.7 165 64 C180.8 61.3 200.8 98.0 215 96 C229.2 94.0 238.8 52.7 250 52 C261.2 51.3 281.7 79.7 282 92 C282.3 104.3 262.3 125.0 252 126 C241.7 127.0 218.3 106.0 220 98 C221.7 90.0 245.0 82.7 262 78 C279.0 73.3 303.7 68.7 322 70 C340.3 71.3 354.5 104.7 372 110 C389.5 115.3 413.8 71.3 430 62 C446.2 52.7 472.5 78.3 500 86 C527.5 93.7 549.5 49.3 566 44 C582.5 38.7 610.5 55.0 628 58"></path>
+                    <circle class="route-start" cx="12" cy="120" r="4.5"></circle>
+                    <g class="route-plane" transform="translate(604 34) rotate(18)">
+                        <path d="M0 8 L20 -1 L12 17 L9 10 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+                        <path d="M9 10 L20 -1" stroke="currentColor" stroke-width="1.2" fill="none"></path>
+                    </g>
+                </svg>
+
+                <svg class="doodle doodle--compass" viewBox="0 0 100 100">
+                    <circle cx="50" cy="52" r="34" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+                    <circle cx="50" cy="52" r="26" fill="none" stroke="currentColor" stroke-width="0.8" opacity=".45"></circle>
+                    <g stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+                        <line x1="50" y1="18" x2="50" y2="26"></line>
+                        <line x1="50" y1="78" x2="50" y2="86"></line>
+                        <line x1="16" y1="52" x2="24" y2="52"></line>
+                        <line x1="76" y1="52" x2="84" y2="52"></line>
+                    </g>
+                    <path d="M50 28 L57 52 L50 76 L43 52 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+                    <path d="M50 28 L57 52 L43 52 Z" fill="#b06a4a" opacity=".85"></path>
+                    <circle cx="50" cy="52" r="3.2" fill="currentColor"></circle>
+                    <text x="50" y="12" text-anchor="middle" font-size="10" fill="currentColor" font-family="Georgia, serif">N</text>
+                </svg>
+            </div>
         </section>
 
         <section id="quiz-screen" class="screen quiz-screen is-hidden">

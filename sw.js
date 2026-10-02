@@ -6,7 +6,7 @@
         （v1 -> v2），用户下次打开就会拿到新版本。
    ========================================================= */
 
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 
 const CACHE_NAME = "travel-city-personality-" + CACHE_VERSION;
 
@@ -17,6 +17,11 @@ const PRECACHE_URLS = [
     "./style.css",
     "./script.js",
     "./manifest.webmanifest",
+    "./assets/fonts/fonts.css",
+    "./assets/fonts/MaShanZheng.woff2",
+    "./assets/fonts/NotoSerifSC.woff2",
+    "./assets/fonts/NotoSansSC.woff2",
+    "./assets/fonts/ZCOOLXiaoWei.woff2",
     "./assets/icons/icon-192.png",
     "./assets/icons/icon-512.png",
     "./assets/icons/apple-touch-icon.png",

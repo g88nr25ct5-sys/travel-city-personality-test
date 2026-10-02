@@ -1,0 +1,49 @@
+/* =========================================================
+   自托管字体
+
+   这些字体来自 Google Fonts（SIL Open Font License 1.1），
+   下载后按本站实际用到的字符做了子集化，所以体积很小：
+     Ma Shan Zheng    6.0MB -> 35KB
+     ZCOOL XiaoWei    6.1MB -> 162KB
+     Noto Serif SC     24MB -> 303KB
+     Noto Sans SC      17MB -> 69KB
+
+   自托管的好处：不再等 Google Fonts（原本光 CSS 就要 179KB、
+   要 1 秒以上），打开就是最终字体，也不会出现"字先显示一个样子、
+   一两秒后跳成另一个样子"。
+
+   注意：字体只包含当前文案用到的字。以后如果改了题目或城市介绍，
+   出现了新的字，那个字会回退到系统字体。重新生成的办法见 README。
+   ========================================================= */
+
+@font-face {
+    font-family: "Ma Shan Zheng";
+    src: url("MaShanZheng.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ZCOOL XiaoWei";
+    src: url("ZCOOLXiaoWei.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Noto Serif SC";
+    src: url("NotoSerifSC.woff2") format("woff2");
+    font-weight: 200 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url("NotoSansSC.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}

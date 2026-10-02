@@ -13,3 +13,6 @@
 # 依赖与构建产物（本项目目前不需要）
 node_modules/
 dist/
+
+# 字体源文件：每个几十 MB，用 tools/build-fonts.py 自动下载，不入库
+tools/fonts/

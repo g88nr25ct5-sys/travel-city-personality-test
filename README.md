@@ -36,6 +36,8 @@
 - **手账 / 明信片风格**：城市卡片用 CSS 做了纸胶带、轻微旋转和投影，像贴在本子上的照片。
 - **首页装饰**：一根线挂着 5 张城市照片，配手绘简笔画（指南针、地标塔、回形针、星点）
   和一条绕圈的旅行足迹路线。全部是内联 SVG，没有额外图片文件，配色和线条统一在 `style.css` 里控制。
+- **字体自托管**：4 个字体族都做了子集化放在 `assets/fonts/`，打开就是最终字体，
+  不会出现「先显示一个字体、一两秒后再跳成另一个」，也能离线用。
 - **响应式**：桌面端城市卡片三列并排，手机端自动变成一列。
 - **可安装（PWA）**：手机上「添加到主屏幕」后可以全屏打开、离线使用，清单里已声明竖屏方向。
 - **无依赖**：不打包、不需要 npm，改完直接刷新就能看到。
@@ -56,6 +58,41 @@ python3 -m http.server 8000
 > `manifest.webmanifest ... blocked by CORS policy` 的提示。
 > 这是浏览器对本地文件的限制，不是页面错误 —— 用上面的本地服务器打开，
 > 或者部署到 GitHub Pages 之后，控制台是干净的。
+>
+> 另外，浏览器同样不允许 `file://` 页面读取本地的字体文件，所以本地预览时会自动
+> 改从 Google Fonts 取字体（`index.html` 开头有一小段脚本按协议切换）。
+> 线上不会走这条路，用的是本地自托管字体。
+
+## 字体
+
+四个字体族都做了**自托管 + 子集化**，放在 `assets/fonts/`：
+
+| 字体 | 用在哪 | 原始体积 | 子集后 |
+| --- | --- | ---: | ---: |
+| Ma Shan Zheng | 城市名 | 6.0 MB | 35 KB |
+| ZCOOL XiaoWei | 题干、地标名 | 6.1 MB | 158 KB |
+| Noto Serif SC | 正文（可变字重） | 24 MB | 296 KB |
+| Noto Sans SC | 小标签（可变字重） | 17 MB | 67 KB |
+
+「子集化」= 只保留本站实际用到的那 800 多个字，所以能压到原来的百分之一左右。
+原来的做法是每次访问都去 Google Fonts 拉一份 **179KB 的 CSS**，再拉字体文件，
+所以会出现「字先是一个样子、一两秒后跳成另一个样子」。换成本地字体后，
+打开就是最终字体，而且离线也能用。
+
+字体授权都是 SIL Open Font License 1.1，可免费商用。
+
+**改了文案、出现了新的字怎么办？** 新字会回退到系统字体（正文用宋体、小标签用系统无衬线、
+城市名用手写体），页面不会坏，只是风格略有差异。想让新字也用上对应字体，跑一次：
+
+```bash
+pip3 install fonttools brotli
+python3 tools/build-fonts.py
+```
+
+脚本会自动下载字体源文件、重新统计用字、生成新的 `assets/fonts/*.woff2`。
+（字体源文件有 100 多 MB，放在 `tools/fonts/` 里，已经在 `.gitignore` 中排除。）
+
+改完之后记得把 `sw.js` 里的 `CACHE_VERSION` 加一。
 
 ### 在电脑上预览手机版
 
@@ -96,10 +133,14 @@ python3 -m http.server 8000
 ├── script.js                  # 题库、评分规则、四种人格、交互逻辑
 ├── manifest.webmanifest       # PWA 清单（名称、图标、竖屏、主题色）
 ├── sw.js                      # Service Worker，用于离线打开
+├── preview.html               # 开发用：把页面放进手机框里预览
 ├── .nojekyll                  # GitHub Pages 跳过 Jekyll
 ├── LICENSE                    # MIT（仅代码，不含图片）
+├── tools/
+│   └── build-fonts.py         # 改了文案后重新生成字体子集
 └── assets/
     ├── cities/                # 12 张城市照片 + sources.json
+    ├── fonts/                 # 自托管字体（子集化后的 woff2 + fonts.css）
     ├── icons/                 # 应用图标（favicon / apple-touch-icon / 192 / 512）
     └── screenshots/           # README 用的截图与分享图
 ```
