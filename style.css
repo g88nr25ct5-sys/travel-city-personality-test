@@ -140,7 +140,7 @@ h1 span {
     display: none !important;
 }
 
-body:not([data-screen="home"]) .city-stickers {
+body:not([data-screen="home"]) .scenery {
     display: none;
 }
 
@@ -226,6 +226,35 @@ body:not([data-screen="home"]) .city-stickers {
 
 .result-content {
     width: 100%;
+    position: relative;
+}
+
+/* 结果页的小星点 */
+.result-sparkle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    color: var(--doodle-rose);
+    pointer-events: none;
+}
+
+.result-sparkle path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+}
+
+.result-sparkle--1 {
+    right: 2%;
+    top: 4px;
+}
+
+.result-sparkle--2 {
+    right: 7%;
+    top: 54px;
+    width: 12px;
+    color: var(--doodle-sage);
 }
 
 .result-label {
@@ -288,10 +317,30 @@ body:not([data-screen="home"]) .city-stickers {
 
 /* --- 城市推荐区 --- */
 
-.city-title {
+/* 手绘路线分隔线 */
+.route-divider {
+    display: block;
+    width: min(100%, 620px);
+    height: auto;
     margin: 46px 0 0;
-    padding-top: 26px;
-    border-top: 1px dashed var(--line);
+    color: var(--doodle-ink);
+    opacity: 0.8;
+}
+
+.route-divider path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 7 7;
+}
+
+.route-divider circle {
+    fill: var(--doodle-accent);
+}
+
+.city-title {
+    margin: 18px 0 0;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -462,6 +511,15 @@ body:not([data-screen="home"]) .city-stickers {
     color: var(--ink-muted);
 }
 
+.mini-compass {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 7px;
+    vertical-align: -3px;
+    color: var(--ink-muted);
+}
+
 /* =========================================================
    2. 返回首页按钮
    ========================================================= */
@@ -487,11 +545,20 @@ body:not([data-screen="home"]) .city-stickers {
 }
 
 /* =========================================================
-   3. 首页城市照片贴纸（postcard / travel-magazine feel）
-   每个 .city-image-N 可独立配置
+   3. 首页装饰层：一根线挂照片 + 手绘简笔画
+   —— 全部是手写 SVG，配色统一，保证「有内容但不花」
    ========================================================= */
 
-.city-stickers {
+:root {
+    /* 简笔画配色：低饱和，避免廉价感 */
+    --doodle-ink: rgba(42, 34, 27, 0.55);
+    --doodle-soft: rgba(42, 34, 27, 0.42);
+    --doodle-accent: #b06a4a;
+    --doodle-sage: #8fa07a;
+    --doodle-rose: #c08a76;
+}
+
+.scenery {
     position: absolute;
     inset: 0;
     z-index: 1;
@@ -499,104 +566,188 @@ body:not([data-screen="home"]) .city-stickers {
     overflow: hidden;
 }
 
-.city-sticker {
+/* ---------- 一根线把照片挂起来 ---------- */
+
+.photo-line {
     position: absolute;
+    top: var(--line-top, 5.5%);
+    left: 0;
+    right: 0;
+    height: 0;
+}
+
+.photo-line__wire {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    color: rgba(42, 34, 27, 0.3);
+}
+
+.photo-line__wire path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+}
+
+.photo-line__items {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+/* 一张照片 = 白边相纸 + 顶部夹子 */
+.photo {
+    position: relative;
     margin: 0;
-    width: var(--sticker-width, 140px);
-    padding: var(--sticker-pad, 10px);
+    padding: 6px;
     background: #ffffff;
-    border-radius: 6px;
+    border-radius: 3px;
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.9) inset,
-        0 2px 4px rgba(42, 34, 27, 0.12),
-        0 16px 30px rgba(42, 34, 27, 0.18);
-    transform: rotate(var(--sticker-rotate, 0deg));
-    top: var(--sticker-top, auto);
-    right: var(--sticker-right, auto);
-    bottom: var(--sticker-bottom, auto);
-    left: var(--sticker-left, auto);
-    opacity: var(--sticker-opacity, 0.96);
+        0 3px 6px rgba(42, 34, 27, 0.1),
+        0 14px 26px rgba(42, 34, 27, 0.14);
+    transform-origin: top center;
+    transform: translateY(var(--hang, 20px)) rotate(var(--tilt, 0deg));
 }
 
-/* 贴纸顶端的纸胶带 */
-.city-sticker::before {
+.photo::before {
     content: "";
     position: absolute;
-    top: -12px;
+    top: -13px;
     left: 50%;
-    width: 58px;
-    height: 22px;
-    transform: translateX(-50%) rotate(-5deg);
-    background:
-        repeating-linear-gradient(45deg,
-            rgba(255, 255, 255, 0.36) 0 4px,
-            rgba(255, 255, 255, 0) 4px 9px),
-        rgba(226, 199, 168, 0.8);
-    border-radius: 1px;
-    box-shadow: 0 2px 6px rgba(42, 34, 27, 0.14);
+    transform: translateX(-50%);
+    width: 9px;
+    height: 15px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #dcbb95, #b98e63);
+    box-shadow: 0 1px 2px rgba(42, 34, 27, 0.2);
 }
 
-.city-sticker img {
+.photo img {
     display: block;
-    width: 100%;
+    width: var(--photo-w, 118px);
     height: auto;
-    aspect-ratio: var(--sticker-ratio, 4 / 5);
+    aspect-ratio: var(--photo-ratio, 4 / 5);
     object-fit: cover;
-    border-radius: 2px;
-    filter: contrast(1.04) saturate(0.92);
+    border-radius: 1px;
+    filter: saturate(0.94) contrast(1.03);
 }
 
-/* --- 独立配置（可自由替换） --- */
-
-.city-image-1 {
-    --sticker-width: 118px;
-    --sticker-ratio: 4 / 5;
-    --sticker-rotate: -7deg;
-    --sticker-top: 10%;
-    --sticker-left: 6%;
-    --sticker-right: auto;
-    --sticker-bottom: auto;
-    --sticker-opacity: 0.9;
+/* 每张照片的挂点高度和线上对应位置对齐（线是一段下凹的弧） */
+.photo--1 {
+    --hang: 17px;
+    --tilt: -5deg;
+    --photo-ratio: 4 / 5;
 }
 
-.city-image-2 {
-    --sticker-width: 132px;
-    --sticker-ratio: 5 / 4;
-    --sticker-rotate: 5deg;
-    --sticker-top: 14%;
-    --sticker-right: 5%;
-    --sticker-left: auto;
-    --sticker-bottom: auto;
-    --sticker-opacity: 0.88;
+.photo--2 {
+    --hang: 23px;
+    --tilt: 3.5deg;
+    --photo-ratio: 1 / 1;
 }
 
-.city-image-3 {
-    --sticker-width: 108px;
-    --sticker-ratio: 3 / 4;
-    --sticker-rotate: -3deg;
-    --sticker-bottom: 12%;
-    --sticker-right: 8%;
-    --sticker-top: auto;
-    --sticker-left: auto;
-    --sticker-opacity: 0.86;
+.photo--3 {
+    --hang: 25px;
+    --tilt: -2deg;
+    --photo-ratio: 4 / 5;
 }
 
-.city-image-2::before {
-    transform: translateX(-50%) rotate(4deg);
-    background:
-        repeating-linear-gradient(45deg,
-            rgba(255, 255, 255, 0.36) 0 4px,
-            rgba(255, 255, 255, 0) 4px 9px),
-        rgba(207, 216, 190, 0.8);
+.photo--4 {
+    --hang: 23px;
+    --tilt: 4deg;
+    --photo-ratio: 5 / 4;
 }
 
-.city-image-3::before {
-    transform: translateX(-50%) rotate(-3deg);
-    background:
-        repeating-linear-gradient(45deg,
-            rgba(255, 255, 255, 0.36) 0 4px,
-            rgba(255, 255, 255, 0) 4px 9px),
-        rgba(230, 205, 196, 0.8);
+.photo--5 {
+    --hang: 17px;
+    --tilt: -4.5deg;
+    --photo-ratio: 4 / 5;
+}
+
+/* ---------- 手绘简笔画 ---------- */
+
+.doodle {
+    position: absolute;
+    height: auto;
+    color: var(--doodle-ink);
+}
+
+.doodle--compass {
+    left: max(3%, calc(50% - 430px));
+    top: 46%;
+    width: 126px;
+}
+
+.doodle--pagoda {
+    right: max(3%, calc(50% - 430px));
+    top: 42%;
+    width: 132px;
+    color: var(--doodle-soft);
+}
+
+.doodle--route {
+    left: 0;
+    right: 0;
+    bottom: 5%;
+    width: min(86%, 680px);
+    margin: 0 auto;
+    color: var(--doodle-ink);
+}
+
+.route-path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 9 8;
+}
+
+.route-start {
+    fill: var(--doodle-accent);
+}
+
+.route-plane {
+    color: var(--doodle-accent);
+}
+
+.doodle--clip {
+    right: max(7%, calc(50% - 380px));
+    top: 28%;
+    width: 26px;
+    color: var(--doodle-soft);
+    transform: rotate(14deg);
+}
+
+.doodle--sparkle {
+    width: 18px;
+    color: var(--doodle-rose);
+}
+
+.doodle--sparkle-1 {
+    left: max(9%, calc(50% - 350px));
+    top: 64%;
+    width: 20px;
+}
+
+.doodle--sparkle-2 {
+    right: max(11%, calc(50% - 340px));
+    top: 72%;
+    width: 14px;
+    color: var(--doodle-sage);
+}
+
+.doodle--sparkle-3 {
+    left: max(15%, calc(50% - 300px));
+    top: 32%;
+    width: 12px;
+    color: var(--doodle-sage);
 }
 
 /* =========================================================
@@ -625,37 +776,86 @@ body:not([data-screen="home"]) .city-stickers {
         max-width: 320px;
     }
 
-    .city-image-1 {
-        --sticker-width: 78px;
-        --sticker-top: 6%;
-        --sticker-left: 4%;
-        --sticker-rotate: -5deg;
-        --sticker-opacity: 0.82;
+    /* ---------- 手机上的装饰：留 3 张照片 + 旅行路线 + 星点 ---------- */
+
+    .photo-line {
+        --line-top: 4.5%;
     }
 
-    .city-image-2 {
-        --sticker-width: 86px;
-        --sticker-top: 8%;
-        --sticker-right: 3%;
-        --sticker-rotate: 4deg;
-        --sticker-opacity: 0.8;
+    .photo img {
+        --photo-w: 72px;
     }
 
-    /* 小屏隐藏第三张贴纸，保持画面安静 */
-    .city-image-3 {
+    .photo--2,
+    .photo--4 {
+        display: none;
+    }
+
+    /* 只剩 3 张时光点位置变了，挂点高度要重新对齐 */
+    .photo--1 {
+        --hang: 19px;
+    }
+
+    .photo--3 {
+        --hang: 25px;
+    }
+
+    .photo--5 {
+        --hang: 19px;
+    }
+
+    .doodle--compass {
+        left: auto;
+        right: 7%;
+        top: auto;
+        bottom: 2%;
+        width: 46px;
+    }
+
+    .doodle--pagoda,
+    .doodle--clip {
+        display: none;
+    }
+
+    .doodle--route {
+        left: 4%;
+        right: auto;
+        margin: 0;
+        bottom: 2.5%;
+        width: 66%;
+    }
+
+    .doodle--sparkle-1 {
+        left: 7%;
+        top: 29%;
+        width: 14px;
+    }
+
+    .doodle--sparkle-2 {
+        right: 8%;
+        top: 25%;
+        width: 11px;
+    }
+
+    .doodle--sparkle-3 {
         display: none;
     }
 }
 
 @media (max-width: 420px) {
-    .city-image-1 {
-        --sticker-width: 64px;
-        --sticker-pad: 5px;
+    .photo img {
+        --photo-w: 62px;
     }
 
-    .city-image-2 {
-        --sticker-width: 72px;
-        --sticker-pad: 5px;
+    .doodle--route {
+        left: 4%;
+        bottom: 2%;
+        width: 68%;
+    }
+
+    .doodle--compass {
+        right: 5%;
+        width: 40px;
     }
 
     .result-title {
@@ -663,27 +863,10 @@ body:not([data-screen="home"]) .city-stickers {
     }
 }
 
-/* 宽屏：让贴纸退到正文两侧的留白里 */
-@media (min-width: 960px) {
-    .city-image-1 {
-        --sticker-width: 148px;
-        --sticker-left: max(4%, calc(50% - 420px));
-        --sticker-top: 18%;
-        --sticker-rotate: -8deg;
-    }
-
-    .city-image-2 {
-        --sticker-width: 160px;
-        --sticker-right: max(4%, calc(50% - 420px));
-        --sticker-top: 22%;
-        --sticker-rotate: 6deg;
-    }
-
-    .city-image-3 {
-        --sticker-width: 130px;
-        --sticker-right: max(8%, calc(50% - 360px));
-        --sticker-bottom: 16%;
-        --sticker-rotate: -4deg;
+/* 特别矮的屏幕：只留指南针，避免和正文挤在一起 */
+@media (max-width: 720px) and (max-height: 560px) {
+    .doodle--route {
+        display: none;
     }
 }
 
@@ -802,5 +985,19 @@ body:not([data-screen="home"]) .city-stickers {
         padding:
             calc(52px + env(safe-area-inset-top)) 22px
             calc(64px + env(safe-area-inset-bottom));
+    }
+
+    .route-divider {
+        margin-top: 38px;
+    }
+
+    .result-sparkle--1 {
+        right: 0;
+        top: 2px;
+        width: 15px;
+    }
+
+    .result-sparkle--2 {
+        display: none;
     }
 }

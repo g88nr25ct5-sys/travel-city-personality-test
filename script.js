@@ -691,7 +691,121 @@ function getResultType() {
 
 
 // ========================================
-// 12. 完成测试
+// 12. 结果页的手绘装饰（全部是内联 SVG，没有额外图片文件）
+// ========================================
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+
+// 一条手绘虚线，用来代替生硬的分隔线
+function createRouteDivider() {
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+
+    svg.setAttribute("class", "route-divider");
+    svg.setAttribute("viewBox", "0 0 640 60");
+    svg.setAttribute("aria-hidden", "true");
+
+    const path = document.createElementNS(SVG_NS, "path");
+
+    path.setAttribute(
+        "d",
+        "M8 42 C40 20 70 20 96 34 C120 46 140 46 168 30 " +
+        "C196 14 214 12 240 26 C266 40 286 40 312 24 " +
+        "C338 8 358 8 384 22 C410 36 434 38 460 26 " +
+        "C486 14 512 12 540 24 C560 33 580 34 604 26"
+    );
+
+    svg.appendChild(path);
+
+    const start = document.createElementNS(SVG_NS, "circle");
+
+    start.setAttribute("cx", "8");
+    start.setAttribute("cy", "42");
+    start.setAttribute("r", "4");
+
+    svg.appendChild(start);
+
+    return svg;
+}
+
+
+// 小指南针，放在图片来源那一行
+function createCompass() {
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+
+    svg.setAttribute("class", "mini-compass");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("aria-hidden", "true");
+
+    const shapes = [
+        ["circle", {
+            cx: "50",
+            cy: "52",
+            r: "36",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "7"
+        }],
+        ["path", {
+            d: "M50 26 L58 52 L50 78 L42 52 Z",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "7",
+            "stroke-linejoin": "round"
+        }],
+        ["path", {
+            d: "M50 26 L58 52 L42 52 Z",
+            fill: "#b06a4a"
+        }],
+        ["circle", {
+            cx: "50",
+            cy: "52",
+            r: "9",
+            fill: "currentColor"
+        }]
+    ];
+
+    shapes.forEach(function (shape) {
+
+        const el = document.createElementNS(SVG_NS, shape[0]);
+
+        Object.keys(shape[1]).forEach(function (key) {
+            el.setAttribute(key, shape[1][key]);
+        });
+
+        svg.appendChild(el);
+    });
+
+    return svg;
+}
+
+
+// 小星点
+function createSparkle(className) {
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+
+    svg.setAttribute("class", "result-sparkle " + className);
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+
+    const path = document.createElementNS(SVG_NS, "path");
+
+    path.setAttribute(
+        "d",
+        "M12 2 C13 8 16 11 22 12 C16 13 13 16 12 22 " +
+        "C11 16 8 13 2 12 C8 11 11 8 12 2 Z"
+    );
+
+    svg.appendChild(path);
+
+    return svg;
+}
+
+// ========================================
+// 13. 完成测试
 // ========================================
 
 function finishTest() {
@@ -747,6 +861,9 @@ function finishTest() {
         '<circle cx="12" cy="9.3" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4"/>' +
         '</svg>' +
         '<span>也许你会喜欢这些城市</span>';
+
+    // 手绘路线，代替生硬的分隔线
+    resultContent.appendChild(createRouteDivider());
 
     resultContent.appendChild(cityTitle);
 
@@ -829,10 +946,21 @@ function finishTest() {
     // 图片来源说明（CC 授权需要保留署名信息）
     const cityCredit = document.createElement("p");
     cityCredit.className = "city-credit";
-    cityCredit.textContent =
-        "城市图片来自 Wikimedia Commons（CC0 / CC BY / CC BY-SA），作者与许可证见 assets/cities/sources.json";
+
+    cityCredit.appendChild(createCompass());
+
+    cityCredit.appendChild(
+        document.createTextNode(
+            "城市图片来自 Wikimedia Commons（CC0 / CC BY / CC BY-SA），" +
+            "作者与许可证见 assets/cities/sources.json"
+        )
+    );
 
     resultContent.appendChild(cityCredit);
+
+    // 小星点
+    resultContent.appendChild(createSparkle("result-sparkle--1"));
+    resultContent.appendChild(createSparkle("result-sparkle--2"));
 
 
     // ========================================
@@ -868,7 +996,7 @@ function finishTest() {
 }
 
 // ========================================
-// 13. 下一题
+// 14. 下一题
 // ========================================
 
 function goToNext() {
@@ -904,7 +1032,7 @@ function goToNext() {
 
 
 // ========================================
-// 14. 开始测试
+// 15. 开始测试
 // ========================================
 
 startBtn.addEventListener("click", function () {
@@ -930,7 +1058,7 @@ startBtn.addEventListener("click", function () {
 
 
 // ========================================
-// 15. 下一题按钮
+// 16. 下一题按钮
 // ========================================
 
 nextBtn.addEventListener(
@@ -940,7 +1068,7 @@ nextBtn.addEventListener(
 
 
 // ========================================
-// 16. PWA：只在 http(s) 环境下注册 Service Worker
+// 17. PWA：只在 http(s) 环境下注册 Service Worker
 // ========================================
 
 if (
