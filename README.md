@@ -142,6 +142,7 @@ python3 -m http.server 8000
     ├── cities/                # 12 张城市照片 + sources.json
     ├── fonts/                 # 自托管字体（子集化后的 woff2 + fonts.css）
     ├── icons/                 # 应用图标（favicon / apple-touch-icon / 192 / 512）
+    ├── texture/               # 纸张背景纹理（paper.jpg）
     └── screenshots/           # README 用的截图与分享图
 ```
 
@@ -180,6 +181,14 @@ python3 -m http.server 8000
 [`assets/cities/sources.json`](assets/cities/sources.json)。
 
 如果要把本项目再发布或商用，请保留这些署名信息。
+
+## 纸张纹理来源与许可
+
+`assets/texture/paper.jpg` 由 [Pexels](https://www.pexels.com/) 的照片
+「Copyspace」二次处理而来（裁切、去饱和、压到暖米色、柔光叠加），用于页面背景的纸张质感。
+
+- 原始页面：https://www.pexels.com/zh-cn/photo/copyspace-8823512/
+- 作者：Pexels（平台内免费授权，可商用、无需署名、禁止外链，需下载到本地使用）
 
 ## License
 
