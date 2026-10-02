@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*~
+
+# 依赖与构建产物（本项目目前不需要）
+node_modules/
+dist/

@@ -1,0 +1,806 @@
+/* =========================================================
+   0. 字体与配色变量
+   —— 所有字体都带中文 fallback，Google Fonts 加载失败也不会难看
+   ========================================================= */
+
+:root {
+    /* 主标题 / 人格名称：沿用之前那版衬线，稳重、大气 */
+    --font-heading: Georgia, "Songti SC", "STSong", "Noto Serif SC", "SimSun", serif;
+
+    /* 主标题 / 城市名：稍有手写感 */
+    --font-display: "Ma Shan Zheng", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", cursive;
+
+    /* 人格名称 / 小标题：有性格的标题字体 */
+    --font-title: "ZCOOL XiaoWei", "Songti SC", "STSong", "Noto Serif SC", serif;
+
+    /* 正文：容易阅读的中文衬线 */
+    --font-body: "Noto Serif SC", "Songti SC", "SimSun", "STSong", Georgia, serif;
+
+    /* 小标签 / keywords：干净的无衬线 */
+    --font-label: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+
+    --paper: #f4efe6;
+    --paper-light: #faf7f1;
+    --card: #fffdf8;
+    --ink: #2a221b;
+    --ink-soft: #5c5146;
+    --ink-muted: #8a7b6c;
+    --line: rgba(42, 34, 27, 0.16);
+    --line-soft: rgba(42, 34, 27, 0.1);
+    --accent: #b06a4a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 56px 28px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 结果页要放下三列城市卡片，单独放宽 */
+body[data-screen="done"] .page {
+    max-width: 900px;
+    padding-top: 72px;
+    padding-bottom: 80px;
+    justify-content: flex-start;
+}
+
+.kicker {
+    margin: 0 0 28px;
+    font-family: var(--font-label);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+h1 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+}
+
+h1 span {
+    display: block;
+}
+
+.subtitle {
+    margin: 20px 0 0;
+    font-family: var(--font-heading);
+    font-size: 17px;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+}
+
+.intro {
+    margin: 28px 0 0;
+    max-width: 12em;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+}
+
+#start-btn,
+#next-btn {
+    align-self: flex-start;
+    margin-top: 40px;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--ink);
+    background: none;
+    color: var(--ink);
+    font-family: var(--font-label);
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+#start-btn:hover,
+#next-btn:hover:not(:disabled) {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+#next-btn:disabled {
+    color: #b3a89c;
+    border-bottom-color: #d4cbbf;
+    cursor: not-allowed;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+}
+
+.screen.is-hidden {
+    display: none !important;
+}
+
+body:not([data-screen="home"]) .city-stickers {
+    display: none;
+}
+
+.quiz-screen,
+.done-screen {
+    width: 100%;
+}
+
+.question-text,
+.done-title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    white-space: pre-line;
+}
+
+/* 答题进度条 */
+.quiz-head .kicker {
+    margin-bottom: 12px;
+}
+
+.quiz-bar {
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(42, 34, 27, 0.12);
+    overflow: hidden;
+}
+
+#quiz-progress-fill {
+    display: block;
+    width: 9%;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.quiz-screen #next-btn {
+    margin-top: 28px;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.answer-btn {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    background: var(--paper-light);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.answer-btn:hover,
+.answer-btn.is-selected {
+    border-color: var(--ink);
+    background: #efe8dc;
+}
+
+.done-text {
+    margin: 24px 0 0;
+    max-width: 16em;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+}
+
+/* =========================================================
+   1. 结果页
+   ========================================================= */
+
+.result-content {
+    width: 100%;
+}
+
+.result-label {
+    margin: 0 0 16px;
+    padding-bottom: 14px;
+    position: relative;
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.result-label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 46px;
+    border-bottom: 2px dashed var(--accent);
+    opacity: 0.55;
+}
+
+.result-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+}
+
+.result-short {
+    margin: 24px 0 0;
+    max-width: 30em;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--ink);
+}
+
+.result-description {
+    margin: 20px 0 0;
+    max-width: 34em;
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+}
+
+.result-keywords {
+    margin: 26px 0 0;
+    max-width: 34em;
+    font-family: var(--font-label);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+}
+
+/* --- 城市推荐区 --- */
+
+.city-title {
+    margin: 46px 0 0;
+    padding-top: 26px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-title);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+}
+
+.city-title__pin {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--accent);
+}
+
+.city-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 34px 26px;
+    margin-top: 34px;
+    padding: 8px 2px 4px;
+}
+
+.city-card {
+    position: relative;
+    margin: 0;
+    padding: 13px 13px 16px;
+    background: var(--card);
+    border-radius: 4px;
+    box-shadow:
+        0 12px 24px rgba(42, 34, 27, 0.1),
+        0 1px 0 rgba(255, 255, 255, 0.85) inset;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.city-card:nth-child(3n + 1) {
+    --tilt: -1.6deg;
+}
+
+.city-card:nth-child(3n + 2) {
+    --tilt: 1.3deg;
+}
+
+.city-card:nth-child(3n) {
+    --tilt: -0.7deg;
+}
+
+.city-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 18px 30px rgba(42, 34, 27, 0.14);
+}
+
+/* 纸胶带（washi tape） */
+.city-card::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    width: 68px;
+    height: 24px;
+    transform: translateX(-50%) rotate(-4deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.34) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(223, 197, 166, 0.72);
+    border-radius: 1px;
+    box-shadow: 0 2px 6px rgba(42, 34, 27, 0.1);
+    pointer-events: none;
+}
+
+.city-card:nth-child(3n + 2)::before {
+    transform: translateX(-50%) rotate(3deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.34) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(206, 214, 190, 0.72);
+}
+
+.city-card:nth-child(3n)::before {
+    transform: translateX(-50%) rotate(-2deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.34) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(228, 205, 197, 0.72);
+}
+
+.city-card__photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #e7dfd2;
+}
+
+.city-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    filter: saturate(0.96) contrast(1.03);
+}
+
+.city-card__name {
+    margin: 12px 2px 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: var(--ink);
+}
+
+.city-card__note {
+    margin: 8px 2px 0;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+}
+
+.city-card__landmark {
+    margin: 14px 2px 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--ink-muted);
+}
+
+.city-card__tag {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 1px 6px;
+    border: 1px solid rgba(176, 106, 74, 0.45);
+    border-radius: 3px;
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    vertical-align: 1px;
+}
+
+.city-card__landmark-name {
+    font-family: var(--font-title);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+}
+
+.city-card__landmark-note {
+    display: block;
+    margin-top: 4px;
+}
+
+.city-credit {
+    margin: 34px 0 0;
+    font-family: var(--font-label);
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+}
+
+/* =========================================================
+   2. 返回首页按钮
+   ========================================================= */
+
+.restart-btn {
+    margin-top: 44px;
+    align-self: flex-start;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--ink);
+    background: none;
+    color: var(--ink);
+    font-family: var(--font-label);
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.restart-btn:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* =========================================================
+   3. 首页城市照片贴纸（postcard / travel-magazine feel）
+   每个 .city-image-N 可独立配置
+   ========================================================= */
+
+.city-stickers {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.city-sticker {
+    position: absolute;
+    margin: 0;
+    width: var(--sticker-width, 140px);
+    padding: var(--sticker-pad, 10px);
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 2px 4px rgba(42, 34, 27, 0.12),
+        0 16px 30px rgba(42, 34, 27, 0.18);
+    transform: rotate(var(--sticker-rotate, 0deg));
+    top: var(--sticker-top, auto);
+    right: var(--sticker-right, auto);
+    bottom: var(--sticker-bottom, auto);
+    left: var(--sticker-left, auto);
+    opacity: var(--sticker-opacity, 0.96);
+}
+
+/* 贴纸顶端的纸胶带 */
+.city-sticker::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 58px;
+    height: 22px;
+    transform: translateX(-50%) rotate(-5deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.36) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(226, 199, 168, 0.8);
+    border-radius: 1px;
+    box-shadow: 0 2px 6px rgba(42, 34, 27, 0.14);
+}
+
+.city-sticker img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--sticker-ratio, 4 / 5);
+    object-fit: cover;
+    border-radius: 2px;
+    filter: contrast(1.04) saturate(0.92);
+}
+
+/* --- 独立配置（可自由替换） --- */
+
+.city-image-1 {
+    --sticker-width: 118px;
+    --sticker-ratio: 4 / 5;
+    --sticker-rotate: -7deg;
+    --sticker-top: 10%;
+    --sticker-left: 6%;
+    --sticker-right: auto;
+    --sticker-bottom: auto;
+    --sticker-opacity: 0.9;
+}
+
+.city-image-2 {
+    --sticker-width: 132px;
+    --sticker-ratio: 5 / 4;
+    --sticker-rotate: 5deg;
+    --sticker-top: 14%;
+    --sticker-right: 5%;
+    --sticker-left: auto;
+    --sticker-bottom: auto;
+    --sticker-opacity: 0.88;
+}
+
+.city-image-3 {
+    --sticker-width: 108px;
+    --sticker-ratio: 3 / 4;
+    --sticker-rotate: -3deg;
+    --sticker-bottom: 12%;
+    --sticker-right: 8%;
+    --sticker-top: auto;
+    --sticker-left: auto;
+    --sticker-opacity: 0.86;
+}
+
+.city-image-2::before {
+    transform: translateX(-50%) rotate(4deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.36) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(207, 216, 190, 0.8);
+}
+
+.city-image-3::before {
+    transform: translateX(-50%) rotate(-3deg);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.36) 0 4px,
+            rgba(255, 255, 255, 0) 4px 9px),
+        rgba(230, 205, 196, 0.8);
+}
+
+/* =========================================================
+   4. 响应式
+   ========================================================= */
+
+@media (max-width: 720px) {
+    h1 {
+        font-size: 40px;
+    }
+
+    .result-title {
+        font-size: 38px;
+    }
+
+    /* 手机端：城市卡片自动变成一列 */
+    .city-list {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 38px;
+        margin-top: 26px;
+    }
+
+    .city-card {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .city-image-1 {
+        --sticker-width: 78px;
+        --sticker-top: 6%;
+        --sticker-left: 4%;
+        --sticker-rotate: -5deg;
+        --sticker-opacity: 0.82;
+    }
+
+    .city-image-2 {
+        --sticker-width: 86px;
+        --sticker-top: 8%;
+        --sticker-right: 3%;
+        --sticker-rotate: 4deg;
+        --sticker-opacity: 0.8;
+    }
+
+    /* 小屏隐藏第三张贴纸，保持画面安静 */
+    .city-image-3 {
+        display: none;
+    }
+}
+
+@media (max-width: 420px) {
+    .city-image-1 {
+        --sticker-width: 64px;
+        --sticker-pad: 5px;
+    }
+
+    .city-image-2 {
+        --sticker-width: 72px;
+        --sticker-pad: 5px;
+    }
+
+    .result-title {
+        font-size: 34px;
+    }
+}
+
+/* 宽屏：让贴纸退到正文两侧的留白里 */
+@media (min-width: 960px) {
+    .city-image-1 {
+        --sticker-width: 148px;
+        --sticker-left: max(4%, calc(50% - 420px));
+        --sticker-top: 18%;
+        --sticker-rotate: -8deg;
+    }
+
+    .city-image-2 {
+        --sticker-width: 160px;
+        --sticker-right: max(4%, calc(50% - 420px));
+        --sticker-top: 22%;
+        --sticker-rotate: 6deg;
+    }
+
+    .city-image-3 {
+        --sticker-width: 130px;
+        --sticker-right: max(8%, calc(50% - 360px));
+        --sticker-bottom: 16%;
+        --sticker-rotate: -4deg;
+    }
+}
+
+/* =========================================================
+   5. 手机竖屏：一屏一题
+   —— 顶部进度、题目区独立滚动、底部固定大按钮
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+    body[data-screen="done"] .page,
+    .page {
+        min-height: 100vh;
+        min-height: 100dvh;
+        max-width: none;
+        padding: 0;
+        justify-content: flex-start;
+    }
+
+    /* ---------- 首页：整屏居中 ---------- */
+
+    #home-screen {
+        min-height: 100vh;
+        min-height: 100dvh;
+        justify-content: center;
+        padding:
+            calc(64px + env(safe-area-inset-top)) 26px
+            calc(56px + env(safe-area-inset-bottom));
+    }
+
+    /* ---------- 答题页：一屏一题 ---------- */
+
+    #quiz-screen {
+        height: 100vh;
+        height: 100dvh;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 0;
+        overflow: hidden;
+        justify-content: flex-start;
+    }
+
+    .quiz-head {
+        flex: none;
+        padding: calc(22px + env(safe-area-inset-top)) 26px 0;
+    }
+
+    .quiz-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 26px 26px 12px;
+    }
+
+    .quiz-body .question-text {
+        font-size: 23px;
+        line-height: 1.6;
+    }
+
+    .answers {
+        margin-top: 26px;
+        gap: 10px;
+    }
+
+    .answer-btn {
+        padding: 15px 16px;
+        border-radius: 12px;
+        font-size: 15px;
+    }
+
+    .answer-btn:hover,
+    .answer-btn.is-selected {
+        border-color: var(--accent);
+        background: #f7ede4;
+    }
+
+    .quiz-foot {
+        flex: none;
+        padding: 10px 26px calc(22px + env(safe-area-inset-bottom));
+        background: linear-gradient(to top, var(--paper) 72%, rgba(244, 239, 230, 0));
+    }
+
+    #next-btn {
+        width: 100%;
+        align-self: stretch;
+        margin-top: 0;
+        padding: 16px 0;
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--paper-light);
+        text-align: center;
+        font-size: 15px;
+        letter-spacing: 0.22em;
+    }
+
+    #next-btn:hover:not(:disabled) {
+        background: var(--ink);
+        color: var(--paper-light);
+        border-color: var(--ink);
+    }
+
+    #next-btn:disabled {
+        background: transparent;
+        color: #b3a89c;
+        border-color: #d4cbbf;
+    }
+
+    /* ---------- 结果页：手机上是一条长图 ---------- */
+
+    .done-screen {
+        padding:
+            calc(52px + env(safe-area-inset-top)) 22px
+            calc(64px + env(safe-area-inset-bottom));
+    }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>旅游城市人格测试</title>
+    <meta name="description" content="11 道题，测出你的旅行城市人格——街巷烟火型、山海松弛型、历史审美型、异域探索型，并推荐 3 座适合你的城市。">
+    <meta name="theme-color" content="#f4efe6">
+
+    <link rel="icon" href="assets/icons/favicon.png" sizes="any">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="你的下一座城市，会在哪里？｜旅游城市人格测试">
+    <meta property="og:description" content="11 道题，测出你的旅行城市人格，并推荐 3 座适合你的城市。">
+    <meta property="og:image" content="assets/screenshots/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-screen="home">
+    <!--
+      城市照片贴纸：每个 .city-image-N 可独立替换
+      - 图片：修改 <img src>
+      - 位置 / 旋转 / 大小：在 style.css 对应 .city-image-N 的 CSS 变量中调整
+    -->
+    <div class="city-stickers" aria-hidden="true">
+        <figure class="city-sticker city-image-1">
+            <img src="assets/cities/chengdu.jpg" alt="" width="160" height="200">
+        </figure>
+
+        <figure class="city-sticker city-image-2">
+            <img src="assets/cities/dali.jpg" alt="" width="180" height="140">
+        </figure>
+
+        <figure class="city-sticker city-image-3">
+            <img src="assets/cities/xian.jpg" alt="" width="140" height="180">
+        </figure>
+    </div>
+
+    <main class="page">
+        <section id="home-screen" class="screen">
+            <h1>
+                你的下一座城市，
+                <span>会在哪里？</span>
+            </h1>
+
+            <p class="subtitle">旅游城市人格测试</p>
+
+            <p class="intro">发现最适合你的旅行城市。</p>
+
+            <button type="button" id="start-btn">开始测试</button>
+        </section>
+
+        <section id="quiz-screen" class="screen quiz-screen is-hidden">
+            <div class="quiz-head">
+                <p class="kicker" id="quiz-progress">问题 1 / 11</p>
+                <div class="quiz-bar" aria-hidden="true">
+                    <span id="quiz-progress-fill"></span>
+                </div>
+            </div>
+
+            <div class="quiz-body">
+                <h2 class="question-text" id="question-text"></h2>
+                <div class="answers" id="answers"></div>
+            </div>
+
+            <div class="quiz-foot">
+                <button type="button" id="next-btn" disabled>下一题</button>
+            </div>
+        </section>
+
+        <!-- 结果页内容由 script.js 生成 -->
+        <section id="done-screen" class="screen done-screen is-hidden"></section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

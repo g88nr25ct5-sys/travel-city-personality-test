@@ -1,0 +1,137 @@
+{
+  "note": "本文件记录 assets/cities/ 下 12 张城市图片的原始来源与许可证。所有图片均来自 Wikimedia Commons，可在其来源页面核对授权信息。",
+  "images": [
+    {
+      "city": "成都",
+      "city_key": "chengdu",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Anshun_Bridge_at_night.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Anshun_Bridge_at_night.jpg",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "creator": "Travel Coffee Book",
+      "downloaded_filename": "assets/cities/chengdu.jpg",
+      "file_page_title": "Anshun Bridge at night.jpg"
+    },
+    {
+      "city": "泉州",
+      "city_key": "quanzhou",
+      "source_url": "https://commons.wikimedia.org/wiki/File:20230129_Twin_pagodas_of_Kaiyuan_Temple.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/20230129_Twin_pagodas_of_Kaiyuan_Temple.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "Windmemories",
+      "downloaded_filename": "assets/cities/quanzhou.jpg",
+      "file_page_title": "20230129 Twin pagodas of Kaiyuan Temple.jpg"
+    },
+    {
+      "city": "潮州",
+      "city_key": "chaozhou",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chaozhou_Guangji_Qiao_2013.10.26_15-41-44.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Chaozhou_Guangji_Qiao_2013.10.26_15-41-44.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "Zhangzhugang",
+      "downloaded_filename": "assets/cities/chaozhou.jpg",
+      "file_page_title": "File:Chaozhou Guangji Qiao 2013.10.26 15-41-44.jpg"
+    },
+    {
+      "city": "大理",
+      "city_key": "dali",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Three_Pagodas_of_Chongsheng_Temple_front_view_from_entrance.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Three_Pagodas_of_Chongsheng_Temple_front_view_from_entrance.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "creator": "Jason Zhang",
+      "downloaded_filename": "assets/cities/dali.jpg",
+      "file_page_title": "File:Three Pagodas of Chongsheng Temple front view from entrance.jpg"
+    },
+    {
+      "city": "威海",
+      "city_key": "weihai",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%E7%8E%AF%E7%BF%A0_%E5%88%98%E5%85%AC%E5%B2%9B%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C%E5%8C%BA.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/%E7%8E%AF%E7%BF%A0_%E5%88%98%E5%85%AC%E5%B2%9B%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C%E5%8C%BA.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "Liuxingy",
+      "downloaded_filename": "assets/cities/weihai.jpg",
+      "file_page_title": "环翠 刘公岛风景名胜区.jpg"
+    },
+    {
+      "city": "建德",
+      "city_key": "jiande",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meicheng_Ancient_Town_20240728_145854.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Meicheng_Ancient_Town_20240728_145854.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "HoweyYuan",
+      "downloaded_filename": "assets/cities/jiande.jpg",
+      "file_page_title": "File:Meicheng Ancient Town 20240728 145854.jpg"
+    },
+    {
+      "city": "西安",
+      "city_key": "xian",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bell_Tower_of_Xi%27an_at_night.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/Bell_Tower_of_Xi%27an_at_night.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "TarnishedPath",
+      "downloaded_filename": "assets/cities/xian.jpg",
+      "file_page_title": "File:Bell Tower of Xi'an at night.jpg"
+    },
+    {
+      "city": "景德镇",
+      "city_key": "jingdezhen",
+      "source_url": "https://commons.wikimedia.org/wiki/File:01-Jingdezhen_Imperial_Kiln_Museum.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/01-Jingdezhen_Imperial_Kiln_Museum.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "Zhu Pei",
+      "downloaded_filename": "assets/cities/jingdezhen.jpg",
+      "file_page_title": "File:01-Jingdezhen Imperial Kiln Museum.jpg"
+    },
+    {
+      "city": "大同",
+      "city_key": "datong",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hunyuan_Xuankong_Si_2013.08.30_08-54-59.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Hunyuan_Xuankong_Si_2013.08.30_08-54-59.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "creator": "Zhangzhugang",
+      "downloaded_filename": "assets/cities/datong.jpg",
+      "file_page_title": "Hunyuan Xuankong Si 2013.08.30 08-54-59.jpg"
+    },
+    {
+      "city": "西双版纳",
+      "city_key": "xishuangbanna",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Jingzhen_Octagonal_Pavillion,_Xishuangbanna_-_panoramio_-_Colin_W.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Jingzhen_Octagonal_Pavillion%2C_Xishuangbanna_-_panoramio_-_Colin_W.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "creator": "Colin W",
+      "downloaded_filename": "assets/cities/xishuangbanna.jpg",
+      "file_page_title": "Jingzhen Octagonal Pavillion, Xishuangbanna - panoramio - Colin W.jpg"
+    },
+    {
+      "city": "伊宁",
+      "city_key": "yining",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Batul_Mosque_of_Yining.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Batul_Mosque_of_Yining.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "creator": "Akira CA",
+      "downloaded_filename": "assets/cities/yining.jpg",
+      "file_page_title": "File:Batul Mosque of Yining.jpg"
+    },
+    {
+      "city": "喀什",
+      "city_key": "kashi",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Id_Kah_Mosque_Kashgar.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Id_Kah_Mosque_Kashgar.jpg",
+      "license": "CC BY 3.0 pl",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/pl/deed.en",
+      "creator": "Radosław Botev",
+      "downloaded_filename": "assets/cities/kashi.jpg",
+      "file_page_title": "File:Id Kah Mosque Kashgar.jpg"
+    }
+  ]
+}

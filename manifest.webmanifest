@@ -1,0 +1,32 @@
+{
+  "name": "旅游城市人格测试 · 你的下一座城市，会在哪里？",
+  "short_name": "旅游人格测试",
+  "description": "11 道题，测出你的旅行城市人格——街巷烟火型、山海松弛型、历史审美型、异域探索型，并推荐 3 座适合你的城市。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4efe6",
+  "theme_color": "#f4efe6",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
